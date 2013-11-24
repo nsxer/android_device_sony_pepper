@@ -15,6 +15,7 @@ Patch android source code :
     patch -p1 < device/sony/pepper/patches/hardware_libhardware_legacy.patch
     patch -p1 < device/sony/pepper/patches/system_netd.patch
     patch -p1 < device/sony/pepper/patches/system_core.patch
+    patch -p1 < device/sony/pepper/patches/bootable_recovery.patch
 
 Our step is optional!!! Use only if you going to sync CM source code daily, than simple revert each patch before you sync CM source code :
 
@@ -24,6 +25,7 @@ Our step is optional!!! Use only if you going to sync CM source code daily, than
     patch -p1 -R < device/sony/pepper/patches/hardware_libhardware_legacy.patch
     patch -p1 -R < device/sony/pepper/patches/system_netd.patch
     patch -p1 -R < device/sony/pepper/patches/system_core.patch
+    patch -p1 -R < device/sony/pepper/patches/bootable_recovery.patch
     repo forall -p -c 'git checkout -f'
     repo sync
     patch -p1 < device/sony/pepper/patches/framework_av.patch
@@ -32,6 +34,7 @@ Our step is optional!!! Use only if you going to sync CM source code daily, than
     patch -p1 < device/sony/pepper/patches/hardware_libhardware_legacy.patch
     patch -p1 < device/sony/pepper/patches/system_netd.patch
     patch -p1 < device/sony/pepper/patches/system_core.patch
+    patch -p1 < device/sony/pepper/patches/bootable_recovery.patch
 
 Download CM prebuilts :
    cd vendor/cm
