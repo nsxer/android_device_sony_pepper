@@ -131,10 +131,10 @@ diff --git a/frameworks/av/include/media/AudioParameter.h b/frameworks/av/includ
 index bce7f21..29c8a53 100644
 --- a/frameworks/av/include/media/AudioParameter.h
 +++ b/frameworks/av/include/media/AudioParameter.h
-@@ -61,6 +61,9 @@ public:
-     static const char * const keyCanOpenProxy;
-     static const char * const keyFmVolume;
- #endif
+@@ -48,6 +48,9 @@
+     static const char * const keyFrameCount;
+     static const char * const keyInputSource;
+     static const char * const keyScreenState;
 +#ifdef STE_AUDIO
 +    static const char *keySinkLatency;
 +#endif
@@ -182,10 +182,10 @@ index cad455d..a40b03e 100644
      // types of io configuration change events received with ioConfigChanged()
      enum io_config_event {
          OUTPUT_OPENED,
-@@ -155,6 +163,9 @@ public:
- #ifdef QCOM_HARDWARE
-         EFFECT_CONFIG_CHANGED,
- #endif
+@@ -147,6 +155,9 @@
+         INPUT_CLOSED,
+         INPUT_CONFIG_CHANGED,
+         STREAM_CONFIG_CHANGED,
 +#ifdef STE_AUDIO
 +        SINK_LATENCY_CHANGED,
 +#endif
@@ -423,10 +423,10 @@ diff --git a/frameworks/av/media/libmedia/AudioParameter.cpp b/frameworks/av/med
 index 4240a9a..ebb1ad8 100644
 --- a/frameworks/av/media/libmedia/AudioParameter.cpp
 +++ b/frameworks/av/media/libmedia/AudioParameter.cpp
-@@ -45,6 +45,9 @@ const char * const AudioParameter::keyADSPStatus = AUDIO_PARAMETER_KEY_ADSP_STAT
- const char * const AudioParameter::keyCanOpenProxy = AUDIO_CAN_OPEN_PROXY;
- const char * const AudioParameter::keyFmVolume = AUDIO_PARAMETER_KEY_FM_VOLUME;
- #endif
+@@ -32,6 +32,9 @@
+ const char * const AudioParameter::keyFrameCount = AUDIO_PARAMETER_STREAM_FRAME_COUNT;
+ const char * const AudioParameter::keyInputSource = AUDIO_PARAMETER_STREAM_INPUT_SOURCE;
+ const char * const AudioParameter::keyScreenState = AUDIO_PARAMETER_KEY_SCREEN_STATE;
 +#ifdef STE_AUDIO
 +const char *AudioParameter::keySinkLatency = "sink_latency";
 +#endif
@@ -688,10 +688,10 @@ index 9bf3643..afd171a 100644
      OPEN_INPUT,
      CLOSE_INPUT,
      SET_STREAM_OUTPUT,
-@@ -78,6 +82,9 @@ enum {
- #ifdef QCOM_HARDWARE
-     CREATE_DIRECT_TRACK,
- #endif
+@@ -74,6 +78,9 @@
+     GET_PRIMARY_OUTPUT_SAMPLING_RATE,
+     GET_PRIMARY_OUTPUT_FRAME_COUNT,
+     SET_LOW_RAM_DEVICE,
 +#ifdef STE_AUDIO
 +    READ_INPUT,
 +#endif
@@ -1614,10 +1614,10 @@ index 97de2f6..e64f861 100644
  
      virtual status_t setStreamOutput(audio_stream_type_t stream, audio_io_handle_t output);
  
-@@ -777,6 +796,9 @@ private:
-                 int                                 mLPANumChannels;
-                 volatile bool                       mAllChainsLocked;
- #endif
+@@ -593,6 +612,9 @@
+                 // protected by mLock
+                 Vector<AudioSessionRef*> mAudioSessionRefs;
+ 
 +#ifdef STE_AUDIO
 +                SortedVector<uint32_t*> mInputClients;
 +#endif
