@@ -574,18 +574,15 @@ index 5fa513c..69af894 100644
  #include <hardware/gralloc.h>
  
  #include "DisplayHardware/DisplaySurface.h"
-@@ -74,7 +78,11 @@ DisplayDevice::DisplayDevice(
+@@ -82,7 +86,7 @@
        mOrientation()
  {
      mNativeWindow = new Surface(producer, false);
+-#ifndef EGL_NEEDS_FNW
 +#ifndef BOARD_EGL_NEEDS_LEGACY_FB
      ANativeWindow* const window = mNativeWindow.get();
-+#else
-+    ANativeWindow* const window = new FramebufferNativeWindow();
-+#endif
- 
-     int format;
-     window->query(window, NATIVE_WINDOW_FORMAT, &format);
+ #else
+     ANativeWindow* const window = new FramebufferNativeWindow();
 diff --git a/frameworks/native/services/surfaceflinger/DisplayHardware/HWComposer.cpp b/frameworks/native/services/surfaceflinger/DisplayHardware/HWComposer.cpp
 index f9e619c..fc8a0d1 100644
 --- a/frameworks/native/services/surfaceflinger/DisplayHardware/HWComposer.cpp
